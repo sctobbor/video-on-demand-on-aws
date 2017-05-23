@@ -15,6 +15,11 @@ Parameters:
           - "Yes"
           - "No"
 
+  BuildBucket:
+        Description: S3 bucket for Lambda artifacts
+        Type: String
+        Default: borjeson-public
+
 Metadata:
     AWS::CloudFormation::Interface:
         ParameterGroups:
@@ -546,7 +551,7 @@ Resources:
       Handler: ets-presets.handler
       Role: !GetAtt LambdaEtsDeploymentRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/resources.zip
       Runtime: nodejs4.3
       Timeout: 120
@@ -585,7 +590,7 @@ Resources:
       Handler: ets-pipeline.handler
       Role: !GetAtt LambdaEtsDeploymentRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/resources.zip
       Runtime: nodejs4.3
       Timeout: 120
@@ -604,7 +609,7 @@ Resources:
       Handler: cloudfront-identity.handler
       Role: !GetAtt LambdaCfDeploymentRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/resources.zip
       Runtime: nodejs4.3
       Timeout: 120
@@ -649,7 +654,7 @@ Resources:
       Handler: dynamo-entry.handler
       Role: !GetAtt LambdaDynamoRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/functions.zip
       Runtime: nodejs4.3
       Timeout: 120
@@ -667,7 +672,7 @@ Resources:
       Handler: index.handler
       Role: !GetAtt LambdaMediainfoRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/mediainfo.zip
       Runtime: nodejs4.3
       Timeout: 120
@@ -684,7 +689,7 @@ Resources:
       Handler: profiler.handler
       Role: !GetAtt LambdaDynamoRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/functions.zip
       Runtime: nodejs4.3
       Timeout: 120
@@ -700,7 +705,7 @@ Resources:
       Handler: encode-mp4.handler
       Role: !GetAtt LambdaEtsJobRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/functions.zip
       Runtime:  nodejs4.3
       Timeout: 120
@@ -708,6 +713,7 @@ Resources:
         Variables:
           Dynamo: !Ref Dynamo
           EtsMp4: !Ref EtsMp4
+          Mp4_2160p: !GetAtt EtsPresets.Mp4_2160p
           Mp4_1080p: !GetAtt EtsPresets.Mp4_1080p
           Mp4_720p: !GetAtt EtsPresets.Mp4_720p
           Mp4_540p: !GetAtt EtsPresets.Mp4_540p
@@ -725,7 +731,7 @@ Resources:
       Handler: encode-hls.handler
       Role: !GetAtt LambdaEtsJobRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/functions.zip
       Runtime:  nodejs4.3
       Timeout: 120
@@ -735,6 +741,7 @@ Resources:
             !Ref Dynamo
           EtsHls:
             !Ref EtsHls
+          Hls_2160p: !GetAtt EtsPresets.Hls_2160p
           Hls_1080p: !GetAtt EtsPresets.Hls_1080p
           Hls_720p: !GetAtt EtsPresets.Hls_720p
           Hls_540p: !GetAtt EtsPresets.Hls_540p
@@ -751,7 +758,7 @@ Resources:
       Handler: status-update.handler
       Role: !GetAtt LambdaSnsDynamoRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/functions.zip
       Runtime:  nodejs4.3
       Timeout: 120
@@ -768,7 +775,7 @@ Resources:
       Handler: preset-check.handler
       Role: !GetAtt LambdaDynamoRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/functions.zip
       Runtime: nodejs4.3
       Timeout: 120
@@ -789,7 +796,7 @@ Resources:
       Handler: hls-endpoint.handler
       Role: !GetAtt LambdaDynamoRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/functions.zip
       Runtime:  nodejs4.3
       Timeout: 120
@@ -806,7 +813,7 @@ Resources:
       Handler: metadata.handler
       Role: !GetAtt LambdaMediainfoRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/functions.zip
       Runtime:  nodejs4.3
       Timeout: 120
@@ -825,7 +832,7 @@ Resources:
       Handler: publish.handler
       Role: !GetAtt LambdaSnsDynamoRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/functions.zip
       Runtime:  nodejs4.3
       Timeout: 120
@@ -862,7 +869,7 @@ Resources:
       Handler: ingest-stepfunctions.handler
       Role: !GetAtt LambdaStepDeploymentRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/resources.zip
       Runtime: nodejs4.3
       Timeout: 120
@@ -887,7 +894,7 @@ Resources:
       Handler: publish-stepfunctions.handler
       Role: !GetAtt LambdaStepDeploymentRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/resources.zip
       Runtime: nodejs4.3
       Timeout: 120
@@ -900,7 +907,7 @@ Resources:
       Handler: ingest-execute.handler
       Role: !GetAtt StepFunctionsExecuteRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/functions.zip
       Runtime:  nodejs4.3
       Timeout: 120
@@ -918,7 +925,7 @@ Resources:
       Handler: publish-execute.handler
       Role: !GetAtt StepFunctionsExecuteRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/functions.zip
       Runtime:  nodejs4.3
       Timeout: 120
@@ -960,7 +967,7 @@ Resources:
       Handler: s3-notification.handler
       Role: !GetAtt LambdaS3SnsDeploymentRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/resources.zip
       Runtime:  nodejs4.3
       Timeout: 120
@@ -980,7 +987,7 @@ Resources:
       Handler: sns-subscription.handler
       Role: !GetAtt LambdaS3SnsDeploymentRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/resources.zip
       Runtime:  nodejs4.3
       Timeout: 120
@@ -1031,7 +1038,7 @@ Resources:
       Handler: index.handler
       Role: !GetAtt LambdaMetricsRole.Arn
       Code:
-        S3Bucket: !Join ["-", ["solutions",  Ref: "AWS::Region"]]
+        S3Bucket: !Ref BuildBucket
         S3Key: video-on-demand/v1/metrics.zip
       Runtime:  nodejs4.3
       Timeout: 120

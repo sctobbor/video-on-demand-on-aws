@@ -43,6 +43,76 @@ exports.handler = (event, context, callback) => {
     }
 
     switch (profile) {
+        case '2160':
+            console.log('Using profile ' + profile);
+            ets_job = {
+                PipelineId: process.env.EtsHls,
+                OutputKeyPrefix: event.guid + '/',
+                Input: {
+                    Key: key,
+                    FrameRate: 'auto',
+                    Resolution: 'auto',
+                    AspectRatio: 'auto',
+                    Interlaced: 'auto',
+                    Container: 'auto'
+                },
+                Outputs: [{
+                        Key: outkey + '-hls-2160p',
+                        PresetId: process.env.Hls_2160p,
+                        SegmentDuration: '5.0'
+                    },
+                    {
+                        Key: outkey + '-hls-1080p',
+                        PresetId: process.env.Hls_1080p,
+                        SegmentDuration: '5.0'
+                    },
+                    {
+                        Key: outkey + '-hls-720p',
+                        PresetId: process.env.Hls_720p,
+                        SegmentDuration: '5.0'
+                    },
+                    {
+                        Key: outkey + '-hls-540p',
+                        PresetId: process.env.Hls_540p,
+                        SegmentDuration: '5.0'
+                    },
+                    {
+                        Key: outkey + '-hls-432p',
+                        PresetId: process.env.Hls_432p,
+                        SegmentDuration: '5.0'
+                    },
+                    {
+                        Key: outkey + '-hls-360p',
+                        PresetId: process.env.Hls_360p,
+                        SegmentDuration: '5.0'
+                    },
+                    {
+                        Key: outkey + '-hls-270p',
+                        PresetId: process.env.Hls_270p,
+                        SegmentDuration: '5.0'
+                    },
+                    {
+                        Key: outkey + '-hls-234p',
+                        PresetId: process.env.Hls_234p,
+                        SegmentDuration: '5.0'
+                    }
+                ],
+                Playlists: [{
+                    OutputKeys: [
+                        outkey + '-hls-2160p',
+                        outkey + '-hls-1080p',
+                        outkey + '-hls-720p',
+                        outkey + '-hls-540p',
+                        outkey + '-hls-432p',
+                        outkey + '-hls-360p',
+                        outkey + '-hls-270p'
+                    ],
+                    Name: outkey,
+                    Format: "HLSv3"
+                }]
+            };
+            break;
+
         case '1080':
             console.log('Using profile ' + profile);
             ets_job = {

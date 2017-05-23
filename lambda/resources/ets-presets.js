@@ -56,6 +56,10 @@ exports.handler = (event, context, callback) => {
   if (event.RequestType == "Create") {
 
     const presets = [{
+            id: 'Hls_2160p',
+            data: './presets/hls_2160p_10000.json'
+        },
+        {
             id: 'Hls_1080p',
             data: './presets/hls_1080p_7800.json'
         },
@@ -82,6 +86,10 @@ exports.handler = (event, context, callback) => {
         {
             id: 'Hls_234p',
             data: './presets/hls_234p_145.json'
+        },
+        {
+            id: 'Mp4_2160p',
+            data: './presets/mp4_2160p_10000.json'
         },
         {
             id: 'Mp4_1080p',

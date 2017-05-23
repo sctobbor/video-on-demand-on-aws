@@ -46,7 +46,10 @@ exports.handler = (event, context, callback) => {
                     var mediainfo = JSON.parse(data.Item.srcMediainfo.S);
                     var height = mediainfo.$videoES[0].height;
 
-                    if (height >= 1080) {
+                    if (height >= 2160) {
+                        profile = '2160';
+                        console.log('Video height: ' + height + 'p setting profile to 2160p');
+                    } else if (height >= 1080) {
                         profile = '1080';
                         console.log('Video height: ' + height + 'p setting profile to 1080p');
                     } else if (height >= 720) {

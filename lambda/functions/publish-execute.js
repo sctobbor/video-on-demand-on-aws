@@ -37,7 +37,7 @@ exports.handler = (event, context, callback) => {
         prefix = '-hls';
         json = {
             "guid": msg.outputKeyPrefix.slice(0, -1),
-            "hlsOutput": msg.outputKeyPrefix.slice(0, -1) + '/' + msg.playlists[0].name + '.m3u8',
+            "hlsOutput": msg.outputKeyPrefix.slice(0, -1) + '/' + msg.playlists[0].name,
             "duration": msg.outputs[0].duration.toString()
             };
     }

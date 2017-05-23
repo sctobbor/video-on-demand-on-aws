@@ -36,6 +36,11 @@ exports.handler = (event, context, callback) => {
 
     // Define Presets
     switch (profile) {
+        case '2160':
+            console.log('Using profile ' + profile);
+            preset = process.env.Mp4_2160p;
+
+            break;
         case '1080':
             console.log('Using profile ' + profile);
             preset = process.env.Mp4_1080p;
