@@ -90,11 +90,6 @@ exports.handler = (event, context, callback) => {
                         Key: outkey + '-hls-270p',
                         PresetId: process.env.Hls_270p,
                         SegmentDuration: '5.0'
-                    },
-                    {
-                        Key: outkey + '-hls-234p',
-                        PresetId: process.env.Hls_234p,
-                        SegmentDuration: '5.0'
                     }
                 ],
                 Playlists: [{

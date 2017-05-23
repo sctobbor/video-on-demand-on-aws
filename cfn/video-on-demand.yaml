@@ -18,7 +18,6 @@ Parameters:
   BuildBucket:
         Description: S3 bucket for Lambda artifacts
         Type: String
-        Default: borjeson-public
 
 Metadata:
     AWS::CloudFormation::Interface:
